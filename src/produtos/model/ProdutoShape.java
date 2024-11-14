@@ -4,9 +4,9 @@ public class ProdutoShape extends Produto {
 
 	private String modalidade;
 
-	public ProdutoShape(int numero, float tamanho, String marca, String nome, float preco, float saldoCaixa,
+	public ProdutoShape(int numero, String marca, String nome, float preco,
 			String modalidade) {
-		super(numero, tamanho, marca, nome, preco, saldoCaixa);
+		super(numero,  marca, nome, preco);
 
 		this.modalidade = modalidade;
 	}

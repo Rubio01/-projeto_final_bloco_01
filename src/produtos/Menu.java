@@ -4,15 +4,22 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import produtos.controller.ProdutoController;
+
+import produtos.model.ProdutoOutros;
+import produtos.model.ProdutoShape;
 import produtos.util.Cores;
 
 public class Menu {
 
 	public static void main(String[] args) {
 
-		int opcao;
+		int opcao, numero, tipo;
+		float preco, valor;
+		String marca, nome, modalidade;
 
 		Scanner scanner = new Scanner(System.in);
+		ProdutoController produto = new ProdutoController();
 
 		while (true) {
 
@@ -58,12 +65,46 @@ public class Menu {
 			case 1:
 				System.out.println(Cores.TEXT_YELLOW_BOLD_BRIGHT + "\nCadastrar Produto\n" + Cores.TEXT_RESET);
 
+				System.out.println("Digite o nome do Produto: ");
+				scanner.skip("\\R?");
+				nome = scanner.nextLine();
+
+				do {
+					System.out.println("Digite o tipo do produto (1-Shape ou 2-Outros):");
+					tipo = scanner.nextInt();
+				} while (tipo < 1 && tipo > 2);
+
+				System.out.println("Digite a marca :");
+				scanner.skip("\\R?");
+				marca = scanner.nextLine();
+
+				System.out.println("Digite o preço do Produto(R$):");
+				preco = scanner.nextFloat();
+
+				switch (tipo) {
+				case 1 -> {
+					System.out.println("Digite a modalidade (Long / Vert/ Street):");
+					scanner.skip("\\R?");
+					modalidade = scanner.nextLine();
+					
+
+					produto.cadastrar(new ProdutoShape(produto.gerarNumero(), nome, marca, preco, modalidade));
+
+				}
+
+				case 2 -> {
+
+					produto.cadastrar(new ProdutoOutros(produto.gerarNumero(), nome, marca, preco));
+				}
+				}
+
 				keyPress();
 				break;
 
 			case 2:
-				System.out.println(Cores.TEXT_YELLOW_BOLD_BRIGHT + "\nListar todas os Produtos"+ Cores.TEXT_RESET);
 
+				System.out.println(Cores.TEXT_YELLOW_BOLD_BRIGHT + "\nListar todas os Produtos" + Cores.TEXT_RESET);
+				produto.listarTodos();
 				keyPress();
 				break;
 
@@ -71,11 +112,57 @@ public class Menu {
 				System.out.println(Cores.TEXT_YELLOW_BOLD_BRIGHT + "\nConsultar dados do Produto - por número\n"
 						+ Cores.TEXT_RESET);
 
+				System.out.println(Cores.TEXT_YELLOW_BRIGHT + "Digite o número do produto: ");
+				numero = scanner.nextInt();
+				produto.procurarPorNumero(numero);
+
 				keyPress();
 				break;
 
 			case 4:
 				System.out.println(Cores.TEXT_YELLOW_BOLD_BRIGHT + "\nAtualizar dados do Produto\n" + Cores.TEXT_RESET);
+
+				System.out.println(Cores.TEXT_YELLOW_BRIGHT + "Digite o número do Produto: ");
+				numero = scanner.nextInt();
+
+				var buscaProduto = produto.buscarNaCollection(numero);
+				if (buscaProduto != null) {
+		
+					System.out.println("Digite o nome do Produto: ");
+					scanner.skip("\\R?");
+					nome = scanner.nextLine();
+
+					do {
+						System.out.println("Digite o tipo do produto (1-Shape ou 2-Outros):");
+						tipo = scanner.nextInt();
+					} while (tipo < 1 && tipo > 2);
+
+					System.out.println("Digite a marca :");
+					scanner.skip("\\R?");
+					marca = scanner.nextLine();
+
+					System.out.println("Digite o preço do Produto(R$):");
+					preco = scanner.nextFloat();
+
+					switch (tipo) {
+					case 1 -> {
+						System.out.println("Digite a modalidade (Long / Vert/ Street):");
+						scanner.skip("\\R?");
+						modalidade = scanner.nextLine();
+
+						produto.atualizar(new ProdutoShape(numero, nome, marca, preco, modalidade));
+
+					}
+
+					case 2 -> {
+
+						produto.atualizar(new ProdutoOutros(numero, nome, marca, preco));
+					}
+					}
+
+				} else {
+					System.out.println("A Conta não foi encontrada!");
+				}
 
 				keyPress();
 				break;
@@ -83,12 +170,26 @@ public class Menu {
 			case 5:
 				System.out.println(Cores.TEXT_YELLOW_BOLD_BRIGHT + "\nApagar Produto\n" + Cores.TEXT_RESET);
 
+				System.out.println(Cores.TEXT_YELLOW_BRIGHT + "Digite o número do Produto: ");
+				numero = scanner.nextInt();
+				produto.deletar(numero);
+
 				keyPress();
 				break;
 
 			case 6:
 
-				System.out.println(Cores.TEXT_YELLOW_BOLD_BRIGHT + "\nComprar\n" + Cores.TEXT_RESET);
+				System.out.println(Cores.TEXT_YELLOW_BOLD_BRIGHT + "\nComprar\n" + Cores.TEXT_RESET); //Método comprar incompleto
+
+				System.out.println(Cores.TEXT_YELLOW_BRIGHT + "Digite o número do Produto para compra: ");
+				numero = scanner.nextInt();
+
+				do {
+					System.out.println("Faça o pagamento: ");
+					valor = scanner.nextFloat();
+
+				} while (valor <= 0);
+				produto.comprar(numero, valor);
 
 				keyPress();
 				break;

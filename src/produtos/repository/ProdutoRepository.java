@@ -7,7 +7,7 @@ public interface ProdutoRepository {
 	// CRUD do produto
 		public void procurarPorNumero(int numero);
 
-		public void listarTodas();
+		public void listarTodos();
 
 		public void cadastrar(Produto produto);
 

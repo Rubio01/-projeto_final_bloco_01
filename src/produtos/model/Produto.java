@@ -4,18 +4,18 @@ import produtos.util.Cores;
 
 public abstract class Produto {
 
-	private float saldoCaixa;
+	
 	private int numero;
-	private float tamanho;
+	
 	private String marca;
 	private String nome;
 	private float preco;
 
-	public Produto(int numero, float tamanho, String marca, String nome, float preco, float saldoCaixa) {
+	public Produto(int numero,   String marca, String nome, float preco) {
 
-		this.saldoCaixa = saldoCaixa;
+		
 		this.numero = numero;
-		this.tamanho = tamanho;
+		
 		this.marca = marca;
 		this.nome = nome;
 		this.preco = preco;
@@ -29,13 +29,7 @@ public abstract class Produto {
 		this.numero = numero;
 	}
 
-	public float getTamanho() {
-		return tamanho;
-	}
-
-	public void setTamanho(float tamanho) {
-		this.tamanho = tamanho;
-	}
+	
 
 	public String getMarca() {
 		return marca;
@@ -61,13 +55,7 @@ public abstract class Produto {
 		this.preco = preco;
 	}
 
-	public float getSaldoCaixa() {
-		return saldoCaixa;
-	}
-
-	public void setSaldoCaixa(float saldoCaixa) {
-		this.saldoCaixa = saldoCaixa;
-	}
+	
 
 	public boolean comprar(float valor) {
 
@@ -75,8 +63,8 @@ public abstract class Produto {
 			System.out.println(Cores.TEXT_RED_BOLD_BRIGHT + "\nValor Insuficiente!" + Cores.TEXT_RESET);
 			return false;
 		} else {
-			// falta implementar remoção do produto
-			this.setSaldoCaixa(this.getSaldoCaixa() + valor);
+			
+			
 			return true;
 		}
 	}
@@ -89,7 +77,6 @@ public abstract class Produto {
 		System.out.println("Número: " + this.numero);
 		System.out.println("Nome : " + this.nome);
 		System.out.println("Marca: " + this.marca);
-		System.out.println("Tamanho: " + this.tamanho);
 		System.out.println("Preço : " + this.preco);
 	}
 
